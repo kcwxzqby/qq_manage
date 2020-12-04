@@ -18,4 +18,9 @@ public class RedisKeys {
     public static String getSysConfigKey(String key){
         return "sys:config:" + key;
     }
+
+    public static String getQqBotList(){
+        return "qqBot:list";
+    }
+
 }

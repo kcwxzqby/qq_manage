@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.qq.dao.QqMsgLogDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.qq.entity.QqMsgLogEntity" id="qqMsgLogMap">
+        <result property="id" column="id"/>
+        <result property="target" column="target"/>
+        <result property="type" column="type"/>
+        <result property="content" column="content"/>
+        <result property="success" column="success"/>
+        <result property="cause" column="cause"/>
+    </resultMap>
+
+    <insert id="saveMsgOss">
+        INSERT INTO qq_msg_oss
+        VALUES(#{msgId}, #{ossId})
+    </insert>
+
+</mapper>

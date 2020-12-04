@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.qq.dao.QqBotDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.qq.entity.QqBotEntity" id="qqBotMap">
+        <result property="id" column="id"/>
+        <result property="qqId" column="qq_id"/>
+        <result property="serverIp" column="server_ip"/>
+        <result property="serverPort" column="server_port"/>
+        <result property="authKey" column="auth_key"/>
+        <result property="sessionKey" column="session_key"/>
+        <result property="enable" column="enable"/>
+    </resultMap>
+
+    <resultMap type="io.renren.modules.qq.entity.QqReplyEntity" id="qqReplyMap">
+        <result property="replyId" column="reply_id"/>
+        <result property="replyType" column="reply_type"/>
+        <result property="replyKeys" column="reply_keys"/>
+        <result property="replyMatch" column="reply_match"/>
+        <result property="replyText" column="reply_text"/>
+        <result property="replyApi" column="reply_api"/>
+        <result property="replyApiJson" column="reply_api_json"/>
+    </resultMap>
+
+    <select id="getQqBotReplyList" resultMap="qqReplyMap">
+        SELECT q_re.* FROM qq_bot_reply AS a
+        LEFT JOIN qq_reply AS q_re
+        ON a.reply_id = q_re.reply_id
+        WHERE a.bot_id = #{botId}
+    </select>
+
+    <insert id="saveQqBotReply">
+        INSERT INTO qq_bot_reply
+        VALUES(#{botId}, #{replyId})
+    </insert>
+
+    <delete id="deleteQqBotReplyByBotId">
+        DELETE FROM qq_bot_reply
+        WHERE bot_id = #{botId}
+    </delete>
+
+</mapper>

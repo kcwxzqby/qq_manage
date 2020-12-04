@@ -4,15 +4,13 @@ server:
     uri-encoding: UTF-8
     max-threads: 1000
     min-spare-threads: 30
-  port: 8080
+  port: 8088
   connection-timeout: 5000ms
-  servlet:
-    context-path: /renren-fast
 
 spring:
   # 环境 dev|test|prod
   profiles:
-    active: dev
+    active: prod
   # jackson时间格式化
   jackson:
     time-zone: GMT+8
@@ -25,7 +23,7 @@ spring:
   redis:
     open: false  # 是否开启redis缓存  true开启   false关闭
     database: 0
-    host: localhost
+    host: 127.0.0.1
     port: 6379
     password:    # 密码（默认为空）
     timeout: 6000ms  # 连接超时时长（毫秒）
@@ -74,3 +72,10 @@ renren:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+
+# restTemplate配置
+remote:
+  maxTotalConnect: 0
+  maxConnectPerRoute: 200
+  connectTimeout: 2000
+  readTimeout: 30000

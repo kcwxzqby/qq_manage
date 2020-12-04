@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.qq.dao.QqScheduleMsgDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.qq.entity.QqScheduleMsgEntity" id="qqScheduleMsgMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="type" column="type"/>
+        <result property="target" column="target"/>
+        <result property="text" column="text"/>
+        <result property="api" column="api"/>
+        <result property="json" column="json"/>
+        <result property="cron" column="cron"/>
+        <result property="time" column="time"/>
+    </resultMap>
+
+    <insert id="saveScheduleOss">
+        INSERT INTO qq_schedule_msg_oss
+        VALUES (#{scheduleId}, #{ossId})
+    </insert>
+
+    <delete id="deleteScheduleOssById">
+        DELETE FROM qq_schedule_msg_oss
+        WHERE schedule_id = #{scheduleId}
+    </delete>
+
+    <select id="getScheduleOssIds" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT oss_id FROM qq_schedule_msg_oss
+        WHERE schedule_id = #{scheduleId}
+    </select>
+
+</mapper>

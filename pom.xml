@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>io.renren</groupId>
-	<artifactId>renren-fast</artifactId>
+	<groupId>top.ikechuang</groupId>
+	<artifactId>qq-manage</artifactId>
 	<version>3.0.0</version>
 	<packaging>jar</packaging>
-	<description>renren-fast</description>
+	<description>QQ消息管理平台</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -137,6 +137,10 @@
 			<version>${commons.lang.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>commons-fileupload</groupId>
 			<artifactId>commons-fileupload</artifactId>
 			<version>${commons.fileupload.version}</version>
@@ -231,6 +235,11 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${lombok.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.java-websocket</groupId>
+			<artifactId>Java-WebSocket</artifactId>
+			<version>1.5.1</version>
 		</dependency>
 	</dependencies>
 

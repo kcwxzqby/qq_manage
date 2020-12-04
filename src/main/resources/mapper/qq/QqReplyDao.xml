@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.qq.dao.QqReplyDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.qq.entity.QqReplyEntity" id="qqReplyMap">
+        <result property="replyId" column="reply_id"/>
+        <result property="replyType" column="reply_type"/>
+        <result property="replyKeys" column="reply_keys"/>
+        <result property="replyMatch" column="reply_match"/>
+        <result property="replyText" column="reply_text"/>
+        <result property="replyApi" column="reply_api"/>
+        <result property="replyApiJson" column="reply_api_json"/>
+    </resultMap>
+
+    <insert id="saveReplyOss">
+        INSERT INTO qq_reply_oss
+        VALUES (#{replyId}, #{ossId})
+    </insert>
+
+    <delete id="deleteReplyOssById">
+        DELETE FROM qq_reply_oss
+        WHERE reply_id = #{replyId}
+    </delete>
+
+    <select id="getReplyOssIds" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT oss_id FROM qq_reply_oss
+        WHERE reply_id = #{replyId}
+    </select>
+
+</mapper>

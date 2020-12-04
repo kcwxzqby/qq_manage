@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -95,5 +97,36 @@ public class RedisUtils {
      */
     private <T> T fromJson(String json, Class<T> clazz){
         return gson.fromJson(json, clazz);
+    }
+
+
+    /**
+     * 获取列表指定范围内的元素
+     *
+     * @param key
+     * @param start
+     *            开始位置, 0是开始位置
+     * @param end
+     *            结束位置, -1返回所有
+     * @return
+     */
+    public <T> List<T> lRange(String key, long start, long end, Class<T> clazz) {
+        List list = new ArrayList<>();
+        List<Object> range = listOperations.range(key, start, end);
+        range.forEach(obj -> {
+            list.add(fromJson((String) obj, clazz));
+        });
+        return list;
+    }
+
+    /**
+     * 存储在list头部
+     *
+     * @param key
+     * @param value
+     * @return
+     */
+    public Long lLeftPush(String key, Object value) {
+        return listOperations.leftPush(key, toJson(value));
     }
 }
