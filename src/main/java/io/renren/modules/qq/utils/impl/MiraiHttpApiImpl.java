@@ -108,17 +108,19 @@ public class MiraiHttpApiImpl implements MiraiHttpApi {
         map.put("sessionKey", sessionKey);
         // 添加发送内容
         List<Map<String, String>> messageChain = new ArrayList<>();
+        // 添加文本内容
         Map c = new HashMap();
         c.put("type", "Plain");
-        c.put("text", content);
+        c.put("text", content.replaceAll("#换行#", "\n"));
         messageChain.add(c);
         // 添加发送图片
+        Map i = new HashMap();
         if(images != null) {
             for (String image : images) {
-                c = new HashMap();
-                c.put("type", "Image");
-                c.put("url", image);
-                messageChain.add(c);
+                i = new HashMap();
+                i.put("type", "Image");
+                i.put("url", image);
+                messageChain.add(i);
             }
         }
 

@@ -26,9 +26,9 @@ public class RestTemplateConfiguration {
   private int maxTotalConnect; //连接池的最大连接数默认为0
   @Value("${remote.maxConnectPerRoute:200}")
   private int maxConnectPerRoute; //单个主机的最大连接数
-  @Value("${remote.connectTimeout:2000}")
+  @Value("${remote.connectTimeout:10000}")
   private int connectTimeout; //连接超时默认2s
-  @Value("${remote.readTimeout:30000}")
+  @Value("${remote.readTimeout:60000}")
   private int readTimeout; //读取超时默认30s
 
   //创建HTTP客户端工厂
