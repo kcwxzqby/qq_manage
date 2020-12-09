@@ -107,7 +107,9 @@ public class QqBotServiceImpl extends ServiceImpl<QqBotDao, QqBotEntity> impleme
         // 更新回复模板
         qqBotDao.deleteQqBotReplyByBotId(qqBot.getId());
         for (QqReplyEntity qqReplyEntity : qqBot.getReplyList()) {
-            qqBotDao.saveQqBotReply(qqBot.getId(), qqReplyEntity.getReplyId());
+            if(qqReplyEntity != null) {
+                qqBotDao.saveQqBotReply(qqBot.getId(), qqReplyEntity.getReplyId());
+            }
         }
         // 释放原session
         if(oldBot.getEnable() == 1 && !oldBot.getSessionKey().isEmpty()) {
