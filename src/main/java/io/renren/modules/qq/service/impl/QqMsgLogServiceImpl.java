@@ -47,6 +47,8 @@ public class QqMsgLogServiceImpl extends ServiceImpl<QqMsgLogDao, QqMsgLogEntity
                     qqMsgLogDao.saveMsgOss(qqMsgLogEntity.getId(), sysOssEntity.getId());
                 }
             }
+        } else {
+            save(qqMsgLogEntity);
         }
     }
 

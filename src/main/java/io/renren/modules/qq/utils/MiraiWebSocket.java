@@ -12,6 +12,8 @@ import io.renren.modules.qq.entity.QqReplyEntity;
 import io.renren.modules.qq.service.QqBotService;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -41,28 +43,34 @@ public class MiraiWebSocket extends WebSocketClient {
 
     private MiraiHttpApi miraiHttpApi;
 
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     public MiraiWebSocket(URI serverUri, QqBotEntity qqBot) {
         super(serverUri);
-        this.qqBotEntity = qqBot;
-        qqBotService = SpringContextUtils.getBean("qqBotService", QqBotService.class);
-        qqBotDao = SpringContextUtils.getBean("qqBotDao", QqBotDao.class);
-        sysOssService = SpringContextUtils.getBean("sysOssService", SysOssService.class);
-        qqReplyDao = SpringContextUtils.getBean("qqReplyDao", QqReplyDao.class);
-        miraiHttpApi = SpringContextUtils.getBean("miraiHttpApi", MiraiHttpApi.class);
+        try {
+            this.qqBotEntity = qqBot;
+            qqBotService = SpringContextUtils.getBean("qqBotService", QqBotService.class);
+            qqBotDao = SpringContextUtils.getBean("qqBotDao", QqBotDao.class);
+            sysOssService = SpringContextUtils.getBean("sysOssService", SysOssService.class);
+            qqReplyDao = SpringContextUtils.getBean("qqReplyDao", QqReplyDao.class);
+            miraiHttpApi = SpringContextUtils.getBean("miraiHttpApi", MiraiHttpApi.class);
 
-        this.replyList = new ArrayList<>();
-        for (QqReplyEntity qqReplyEntity : qqBotDao.getQqBotReplyList(qqBot.getId())) {
-            // 图文回复添加图片
-            if(qqReplyEntity.getReplyType() == QqReplyEntity.REPLY_TYPE_IMAGE) {
-                List<Long> replyOssIds = qqReplyDao.getReplyOssIds(qqReplyEntity.getReplyId());
-                if(replyOssIds != null) {
-                    qqReplyEntity.setImages(new ArrayList<>());
-                    for (SysOssEntity oss : sysOssService.listByIds(replyOssIds)) {
-                        qqReplyEntity.getImages().add(new QqReplyEntity.Image(oss.getId(), oss.getUrl()));
+            this.replyList = new ArrayList<>();
+            for (QqReplyEntity qqReplyEntity : qqBotDao.getQqBotReplyList(qqBot.getId())) {
+                // 图文回复添加图片
+                if(qqReplyEntity.getReplyType() == QqReplyEntity.REPLY_TYPE_IMAGE) {
+                    List<Long> replyOssIds = qqReplyDao.getReplyOssIds(qqReplyEntity.getReplyId());
+                    if(replyOssIds != null) {
+                        qqReplyEntity.setImages(new ArrayList<>());
+                        for (SysOssEntity oss : sysOssService.listByIds(replyOssIds)) {
+                            qqReplyEntity.getImages().add(new QqReplyEntity.Image(oss.getId(), oss.getUrl()));
+                        }
                     }
                 }
+                this.replyList.add(qqReplyEntity);
             }
-            this.replyList.add(qqReplyEntity);
+        } catch (Exception e) {
+            logger.error("MiraiWebSocket初始化异常", e);
         }
     }
 
